@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redes Sociales | Billie Eilish</title>
+    <style>
+        :root {
+            --card-bg: rgba(10, 19, 34, 0.85);
+            --accent-blue: #38bdf8;
+            --text-light: #ffffff;
+            --text-muted: #cbd5e1;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            color: var(--text-light);
+            line-height: 1.6;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.4) 0%, rgba(4, 9, 20, 0.9) 100%),
+                        url('imgs/fondo.jpg') no-repeat center center fixed;
+            background-size: cover;
+            min-height: 100vh;
+        }
+
+        header {
+            padding: 3rem 1rem 1rem;
+            text-align: center;
+        }
+
+        .header-title h1 {
+            font-family: 'Arial Black', sans-serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.9);
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .social-menu {
+            background-color: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .social-link {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            border-radius: 12px;
+            color: var(--text-light);
+            text-decoration: none;
+            font-family: 'Arial Black', sans-serif;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+        }
+
+        .social-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .social-icon {
+            width: 24px;
+            height: 24px;
+            fill: var(--accent-blue);
+            transition: fill 0.3s;
+        }
+
+        .social-link:hover {
+            background-color: var(--accent-blue);
+            color: #040914;
+            transform: scale(1.02);
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.5);
+        }
+
+        .social-link:hover .social-icon {
+            fill: #040914;
+        }
+
+        .btn-back {
+            display: inline-block;
+            margin: 2rem auto;
+            padding: 0.8rem 2rem;
+            background-color: var(--accent-blue);
+            color: #040914;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 25px;
+            text-transform: uppercase;
+            transition: transform 0.2s;
+        }
+
+        .btn-back:hover {
+            transform: scale(1.05);
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.8);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-muted);
+            margin-top: 3rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-title">
+            <h1>Redes Sociales</h1>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="social-menu">
+            
+            <!-- Instagram -->
+            <a href="https://www.instagram.com/billieeilish/" target="_blank" class="social-link">
+                <div class="social-info">
+                    <svg class="social-icon" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                    <span>Instagram</span>
+                </div>
+                <span>&rarr;</span>
+            </a>
+
+            <!-- Spotify -->
+            <a href="https://open.spotify.com/artist/6qqNVTkY8uBg9cP3Jd7DAH" target="_blank" class="social-link">
+                <div class="social-info">
+                    <svg class="social-icon" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5.498 17.306c-.219.358-.684.472-1.042.253-2.863-1.75-6.468-2.146-10.713-1.176-.407.093-.811-.161-.904-.567-.093-.407.162-.811.567-.905 4.646-1.062 8.625-.615 11.839 1.353.358.219.472.684.253 1.042zm1.468-3.262c-.276.448-.865.59-1.312.314-3.277-2.013-8.272-2.597-12.15-1.419-.504.153-1.036-.134-1.189-.639-.153-.504.135-1.036.639-1.189 4.432-1.345 9.941-.7 13.7 1.611.447.276.59.865.312 1.322zm.127-3.393c-3.929-2.333-10.418-2.548-14.183-1.405-.603.183-1.24-.162-1.423-.765-.183-.603.162-1.239.765-1.423 4.322-1.312 11.486-1.055 15.998 1.623.541.321.72 1.025.4 1.565-.321.542-1.026.722-1.557.405z"/></svg>
+                    <span>Spotify</span>
+                </div>
+                <span>&rarr;</span>
+            </a>
+
+            <!-- YouTube -->
+            <a href="https://www.youtube.com/@BillieEilish" target="_blank" class="social-link">
+                <div class="social-info">
+                    <svg class="social-icon" viewBox="0 0 24 24"><path d="M23.498 6.186c-.273-.997-1.062-1.786-2.058-2.059-1.815-.49-9.1-.49-9.1-.49s-7.285 0-9.1.49c-.996.273-1.785 1.062-2.058 2.059-.49 1.815-.49 5.82-.49 5.82s0 4.005.49 5.82c.273.997 1.062 1.786 2.058 2.059 1.815.49 9.1.49 9.1.49s7.285 0 9.1-.49c.996-.273 1.785-1.062 2.058-2.059.49-1.815.49-5.82.49-5.82s0-4.005-.49-5.82zm-13.498 9.155v-6.682l6.236 3.341-6.236 3.341z"/></svg>
+                    <span>YouTube</span>
+                </div>
+                <span>&rarr;</span>
+            </a>
+
+            <!-- TikTok -->
+            <a href="https://www.tiktok.com/@billieeilish" target="_blank" class="social-link">
+                <div class="social-info">
+                    <svg class="social-icon" viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.82.57-1.31 1.56-1.28 2.56.02.82.43 1.61 1.08 2.09.78.59 1.83.75 2.77.47 1.13-.33 1.96-1.37 2.03-2.55.07-2.73.03-5.46.04-8.19 0-3.35.01-6.7.01-10.05z"/></svg>
+                    <span>TikTok</span>
+                </div>
+                <span>&rarr;</span>
+            </a>
+
+            <!-- X / Twitter -->
+            <a href="https://twitter.com/billieeilish" target="_blank" class="social-link">
+                <div class="social-info">
+                    <svg class="social-icon" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                    <span>X (Twitter)</span>
+                </div>
+                <span>&rarr;</span>
+            </a>
+
+        </div>
+
+        <div style="text-align: center;">
+            <a href="index.html" class="btn-back">&larr; Volver al Inicio</a>
+        </div>
+    </main>
+
+    <footer>
+        <p>Diseño Web Oficial &bull; Creado por Ángel Ismael Alvarado López</p>
+    </footer>
+
+</body>
+</html>
