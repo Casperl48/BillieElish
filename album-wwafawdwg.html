@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WHEN WE ALL FALL ASLEEP, WHERE DO WE GO? | Billie Eilish</title>
+    <style>
+        :root {
+            --accent-green: #39ff14;
+            --accent-glow: rgba(57, 255, 20, 0.4);
+            --text-light: #f0fdf4;
+            --text-muted: #86efac;
+            --line-color: rgba(57, 255, 20, 0.35);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            color: var(--text-light);
+            line-height: 1.6;
+            background: linear-gradient(180deg, rgba(0, 5, 2, 0.75) 0%, rgba(2, 10, 4, 0.96) 100%),
+                        url('https://i.scdn.co/image/ab67616d0000b27350a3147b4edd7701a876c6ce') no-repeat center center fixed;
+            background-size: cover;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+            flex: 1;
+            width: 100%;
+        }
+
+        .album-layout {
+            display: grid;
+            grid-template-columns: 340px 1fr;
+            gap: 3.5rem;
+            align-items: start;
+        }
+
+        .album-sidebar {
+            position: sticky;
+            top: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .album-cover-wrapper {
+            position: relative;
+            margin-bottom: 1.8rem;
+        }
+
+        .album-cover {
+            width: 260px;
+            height: 260px;
+            object-fit: cover;
+            border-radius: 18px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.9), 0 0 25px rgba(57, 255, 20, 0.25);
+            border: 1px solid rgba(57, 255, 20, 0.4);
+            transform: rotate(-2deg);
+            transition: transform 0.3s ease;
+        }
+
+        .album-cover-wrapper:hover .album-cover {
+            transform: rotate(0deg) scale(1.02);
+        }
+
+        .album-details {
+            text-shadow: 0 2px 10px rgba(0,0,0,0.9);
+        }
+
+        .album-details h1 {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--text-light);
+            line-height: 1.15;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 0 12px rgba(57, 255, 20, 0.3);
+        }
+
+        .album-subtitle {
+            color: var(--accent-green);
+            font-weight: 700;
+            font-size: 0.95rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .album-description {
+            color: rgba(240, 253, 244, 0.8);
+            font-size: 0.92rem;
+            line-height: 1.5;
+            margin-bottom: 2rem;
+        }
+
+        .album-tracks {
+            width: 100%;
+        }
+
+        .route-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .route-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, var(--line-color), transparent);
+        }
+
+        .stations-timeline {
+            position: relative;
+            padding-left: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .stations-timeline::before {
+            content: '';
+            position: absolute;
+            left: 17px;
+            top: 15px;
+            bottom: 15px;
+            width: 3px;
+            background: linear-gradient(180deg, var(--accent-green) 0%, rgba(57, 255, 20, 0.1) 100%);
+            border-radius: 2px;
+        }
+
+        .station-item {
+            position: relative;
+            margin-bottom: 2rem;
+            padding-left: 1rem;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .station-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .station-node {
+            position: absolute;
+            left: -3rem;
+            top: 3px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #020a04;
+            border: 2px solid var(--accent-green);
+            color: var(--accent-green);
+            font-size: 0.8rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
+            transition: all 0.3s ease;
+            z-index: 2;
+        }
+
+        .station-item:hover .station-node {
+            background: var(--accent-green);
+            color: #020a04;
+            box-shadow: 0 0 18px var(--accent-glow);
+            transform: scale(1.15);
+        }
+
+        .station-item.is-playing .station-node {
+            background: var(--accent-green);
+            color: #020a04;
+            box-shadow: 0 0 25px var(--accent-green);
+            animation: pulse-glow-green 1.5s infinite alternate;
+        }
+
+        @keyframes pulse-glow-green {
+            from { box-shadow: 0 0 10px var(--accent-green); }
+            to { box-shadow: 0 0 25px var(--accent-green), 0 0 35px var(--accent-green); }
+        }
+
+        .station-content {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+
+        .station-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 1rem;
+        }
+
+        .track-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-light);
+            transition: color 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .station-item:hover .track-name,
+        .station-item.is-playing .track-name {
+            color: var(--accent-green);
+        }
+
+        .play-indicator {
+            font-size: 0.8rem;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            color: var(--accent-green);
+        }
+
+        .station-item:hover .play-indicator,
+        .station-item.is-playing .play-indicator {
+            opacity: 1;
+        }
+
+        .track-duration {
+            color: var(--accent-green);
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .track-reference {
+            color: var(--text-muted);
+            font-size: 0.88rem;
+            line-height: 1.4;
+            margin-top: 0.2rem;
+        }
+
+        .station-item:hover {
+            transform: translateX(6px);
+        }
+
+        .btn-back {
+            display: inline-block;
+            color: var(--accent-green);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.9rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 0.6rem 1.8rem;
+            border: 1px solid var(--accent-green);
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(57, 255, 20, 0.15);
+        }
+
+        .btn-back:hover {
+            background-color: var(--accent-green);
+            color: #020a04;
+            box-shadow: 0 0 20px var(--accent-glow);
+            transform: scale(1.04);
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(0, 5, 2, 0.95);
+            border-top: 1px solid rgba(57, 255, 20, 0.2);
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 850px) {
+            .album-layout {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+            }
+
+            .album-sidebar {
+                position: relative;
+                top: 0;
+            }
+
+            .stations-timeline {
+                padding-left: 2.5rem;
+            }
+
+            .stations-timeline::before {
+                left: 12px;
+            }
+
+            .station-node {
+                left: -2.5rem;
+                width: 28px;
+                height: 28px;
+                font-size: 0.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <main class="container">
+        
+        <div class="album-layout">
+            
+            <aside class="album-sidebar">
+                <div class="album-cover-wrapper">
+                    <img class="album-cover" src="https://i.scdn.co/image/ab67616d0000b27350a3147b4edd7701a876c6ce" alt="Portada WHEN WE ALL FALL ASLEEP, WHERE DO WE GO?">
+                </div>
+                <div class="album-details">
+                    <h1>WHEN WE ALL FALL ASLEEP, WHERE DO WE GO?</h1>
+                    <p class="album-subtitle">Álbum Debut de Estudio &bull; 2019</p>
+                    <p class="album-description">
+                        Lanzado el 29 de marzo de 2019, combina basslines oscuros, producción minimalista y letras introspectivas sobre pesadillas y parálisis del sueño que revolucionaron el pop alternativo.
+                    </p>
+                    <a href="albumes.html" class="btn-back">&larr; Volver a Álbumes</a>
+                </div>
+            </aside>
+
+            <section class="album-tracks">
+                <h2 class="route-title">Recorrido de Estaciones</h2>
+
+                <div class="stations-timeline">
+                    
+                    <!-- 01 -->
+                    <article class="station-item has-audio" data-src="musicw/ola.mp3">
+                        <div class="station-node">01</div>
+                        <div class="station-content">
+                            <div class="station-header">
+                                <span class="track-name">!!!!!!! <span class="play-indicator">▶</span></span>
+                                <span class="track-duration">0:13</span>
+                            </div>
+                            <p class="track-reference">Sirve como una breve introducción humorística donde se quita sus alineadores dentales, dando inicio oficial al disco.</p>
+                        </div>
+                    </article>
+
+                    <!-- 02 -->
+                    <article class="station-item has-audio" data-src="musicw/bad guy.mp3">
+                        <div class="station-node">02</div>
+                        <div class="station-content">
+                            <div class="station-header">
+                                <span class="track-name">bad guy <span class="play-indicator">▶</span></span>
+                                <span class="track-duration">3:14</span>
+                            </div>
+                            <p class="track-reference">Subvierte el estereotipo del villano mediante un ritmo contagioso de bajo, ironía y una actitud desafiante.</p>
+                        </div>
+                    </article>
+
+                    <!-- 03 -->
+                    <article class="station-item has-audio" data-src="musicw/xanny.mp3">
+                        <div class="station-node">03</div>
+                        <div class="station-content">
+                            <div class="station-header">
+                                <span class="track-name">xanny <span class="play-indicator">▶</span></span>
+                                <span class="track-duration">4:03</span>
+                            </div>
+                            <p class="track-reference">Examina el abuso de sustancias en la cultura juvenil y la decisión personal de mantenerse sobria frente a la presión social.</p>
+                        </div>
+                    </article>
+
+                    <!-- 04 -->
+                    <article class="station-item has-audio" data-src="musicw/yoush.mp3">
+                        <div class="station-node">04</div>
+                        <div class="station-content">
+                            <div class="station-header">
+                                <span class="track-name">you should see me in a crown <span class="play-indicator">▶</span></span>
+                                <span class="track-duration">3:00</span>
+                            </div>
+                            <p class="track-reference">Proyecta una fantasía de dominación y poder absoluto inspirada en la famosa frase de la serie Sherlock.</p>
+                        </div>
+                    </article>
+
+                    <!-- 05 -->
+                    <article class="station-item has-audio" data-src="musicw/allthe.mp3">
+                        <div class="station-node">05</div>
+                        <div class="station-content">
+                            <div class="station-header">
+                                <span class="track-name">all the good girls go to hell <span class="play-indicator">▶</span></span>
+                                <span class="track-duration">2:48</span>
+                            </div>
+                            <p class="track-reference">Utiliza metáforas celestiales y luciferinas para lanzar una crítica urgente ante el cambio climático y la crisis ambiental.</p>
+                        </div>
+                    </article>
+
+                    <!-- 06 -->
+                    <article class="station-item has-audio" data-src="musicw/wish you were gay.mp3">
+                        <div class="station-node">06</div>
+                        <div class="station-content">
+                            <div class="station-header">
+                                <span class="track-name">wish you were gay <span class="play-indicator">▶</span></span>
+                                <span class="track-duration">3:41</span>
+                            </div>
+                            <p class="track-reference">Afronta la herida del rechazo amoroso prefiriendo asumir una imposibilidad de orientación antes que la falta de interés.</p>
+                        </div>
+                    </article>
+
+                    <!-- 07 -->
+                    <article class="station-item has-audio" data-src="musicw/whenthe.mp3">
+                        <div class="station-node">07</div>
+                        <div class="station-content">
+                            <div class="station-header">
+                                <span class="track-name">when the party's over <span class="play-indicator">▶</span></span>
+                                <span class="track-duration">3:16</span>
+                            </div>
+                            <p class="track-reference">Transmite una melancólica balada coral que aborda la distancia emocional y la inevitabilidad del aislamiento.</p>
+                        </div>
+                    </article>
+
+                    <!-- 08 -->
+                    <article class="station-item has-audio" data-src="musicw/8.mp3">
+                        <div class="station-node">08</div>
+                        <div class="station-content">
+                            <div class="station-header">
+                                <span class="track-name">8 <span class="play-indicator">▶</span></span>
+                                <span class="track-duration">2:53</span>
+                            </div>
+                            <p class="track-reference">Ofrece un tono más cálido apoyado en un ukulele, relatando la vulnerabilidad de romper el corazón de alguien sin intención.</p>
+                        </div>
+                    </article>
+
+                    <!-- 09 -->
+                    <article class="station-item has-audio" data-src="musicw/my strange addiction.mp3">
+                        <div class="station-node">09</div>
+                        <div class="station-content">
+                            <div class="station-header">
+                                <span class="track-name">my strange addiction <span class="play-indicator">▶</span></span>
+                                <span class="track-duration">2:59</span>
+                            </div>
+                            <p class="track-reference">Muestra una atracción enfermiza entrelazada con samplers de diálogos icónicos de la serie The Office.</p>
+                        </div>
+                    </article>
+
+                    <!-- 10 -->
+                    <article class="station-item has-audio" data-src="musicw/bury a friend.mp3">
+                        <div class="station-node">10</div>
+                        <div class="station-content">
+                            <div class="station-header">
+                                <span class="track-name">bury a friend <span class="play-indicator">▶</span></span>
+                                <span class="track-duration">3:13</span>
+                            </div>
+                            <p class="track-reference">Adopta la perspectiva del monstruo debajo de la cama para explorar el autosabotaje, las pesadillas y la parálisis del sueño.</p>
+                        </div>
+                    </article>
+
+                    <!-- 11 -->
+                    <article class="station-item has-audio" data-src="musicw/ilomilo.mp3">
+                        <div class="station-node">11</div>
+                        <div class="station-content">
+                            <div class="station-header">
+                                <span class="track-name">ilomilo <span class="play-indicator">▶</span></span>
+                                <span class="track-duration">2:36</span>
+                            </div>
+                            <p class="track-reference">Inspira su narrativa en un videojuego de acertijos para reflexionar sobre el miedo constante a perder a los seres queridos.</p>
+                        </div>
+                    </article>
+
+                    <!-- 12 -->
+                    <article class="station-item has-audio" data-src="musicw/listen before i go.mp3">
+                        <div class="station-node">12</div>
+                        <div class="station-content">
+                            <div class="station-header">
+                                <span class="track-name">listen before i go <span class="play-indicator">▶</span></span>
+                                <span class="track-duration">4:02</span>
+                            </div>
+                            <p class="track-reference">Abre un espacio desgarrador y confesional sobre el peso de la depresión profunda y el despido final.</p>
+                        </div>
+                    </article>
+
+                    <!-- 13 -->
+                    <article class="station-item has-audio" data-src="musicw/i love you.mp3">
+                        <div class="station-node">13</div>
+                        <div class="station-content">
+                            <div class="station-header">
+                                <span class="track-name">i love you <span class="play-indicator">▶</span></span>
+                                <span class="track-duration">4:51</span>
+                            </div>
+                            <p class="track-reference">Expresa la complicación de enamorarse intensamente cuando se teme al sufrimiento y a la vulnerabilidad que conlleva.</p>
+                        </div>
+                    </article>
+
+                    <!-- 14 -->
+                    <article class="station-item has-audio" data-src="musicw/goodbye.mp3">
+                        <div class="station-node">14</div>
+                        <div class="station-content">
+                            <div class="station-header">
+                                <span class="track-name">goodbye <span class="play-indicator">▶</span></span>
+                                <span class="track-duration">1:59</span>
+                            </div>
+                            <p class="track-reference">Concluye el álbum entrelazando versos de cada una de las canciones anteriores en orden inverso, desvaneciendo el viaje onírico.</p>
+                        </div>
+                    </article>
+
+                </div>
+            </section>
+
+        </div>
+
+    </main>
+
+    <footer>
+        <p>Diseño Web Oficial &bull; Creado por Ángel Ismael Alvarado López</p>
+    </footer>
+
+    <!-- REPRODUCTOR DE AUDIO OCULTO Y CONTROL POR JAVASCRIPT -->
+    <audio id="hidden-audio-player"></audio>
+
+    <script>
+        const audioPlayer = document.getElementById('hidden-audio-player');
+        const audioTracks = document.querySelectorAll('.station-item.has-audio');
+
+        audioTracks.forEach(track => {
+            track.addEventListener('click', () => {
+                const audioSrc = track.getAttribute('data-src');
+                const indicator = track.querySelector('.play-indicator');
+
+                if (track.classList.contains('is-playing')) {
+                    audioPlayer.pause();
+                    track.classList.remove('is-playing');
+                    if (indicator) indicator.textContent = '▶';
+                    return;
+                }
+
+                audioTracks.forEach(t => {
+                    t.classList.remove('is-playing');
+                    const ind = t.querySelector('.play-indicator');
+                    if (ind) ind.textContent = '▶';
+                });
+
+                audioPlayer.src = audioSrc;
+                audioPlayer.play();
+                track.classList.add('is-playing');
+                if (indicator) indicator.textContent = '⏸';
+            });
+        });
+
+        audioPlayer.addEventListener('ended', () => {
+            audioTracks.forEach(t => {
+                t.classList.remove('is-playing');
+                const ind = t.querySelector('.play-indicator');
+                if (ind) ind.textContent = '▶';
+            });
+        });
+    </script>
+
+</body>
+</html>

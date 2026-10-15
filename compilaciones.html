@@ -7,6 +7,7 @@
     <style>
         :root {
             --accent-blue: #38bdf8;
+            --accent-glow: rgba(56, 189, 248, 0.4);
             --text-light: #ffffff;
             --text-muted: #cbd5e1;
         }
@@ -43,7 +44,6 @@
             color: #e0f2fe;
         }
 
-        /* --- CONTENEDOR PRINCIPAL EXTENDIDO --- */
         .container {
             max-width: 1200px;
             margin: 2rem auto;
@@ -55,7 +55,6 @@
             justify-content: center;
         }
 
-        /* --- GRID DE 2 COMPILACIONES MONUMENTALES (SIN CUADROS) --- */
         .compilations-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -76,13 +75,13 @@
             transform: translateY(-8px);
         }
 
-        /* Portadas gigantes con resplandor suave y sombras profundas */
         .comp-cover-wrapper {
             position: relative;
             width: 100%;
             max-width: 320px;
             aspect-ratio: 1 / 1;
             margin-bottom: 2rem;
+            cursor: pointer;
         }
 
         .comp-thumb {
@@ -94,15 +93,28 @@
             transition: transform 0.4s ease, box-shadow 0.4s ease;
         }
 
-        .comp-card:hover .comp-thumb {
+        .comp-card:hover .comp-thumb,
+        .comp-card.is-playing .comp-thumb {
             transform: scale(1.03);
-            box-shadow: 0 20px 45px rgba(56, 189, 248, 0.25);
+            box-shadow: 0 20px 45px rgba(56, 189, 248, 0.35);
         }
 
-        /* Información del álbum sobre el fondo limpio */
+        .comp-card.is-playing .comp-thumb {
+            border: 2px solid var(--accent-blue);
+            animation: pulse-border-blue 1.8s infinite alternate;
+        }
+
+        @keyframes pulse-border-blue {
+            from { box-shadow: 0 0 15px var(--accent-blue); }
+            to { box-shadow: 0 0 35px var(--accent-blue), 0 0 45px var(--accent-glow); }
+        }
+
         .comp-info {
             max-width: 420px;
             text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .comp-badge {
@@ -130,9 +142,36 @@
             color: var(--text-muted);
             font-size: 0.95rem;
             line-height: 1.6;
+            margin-bottom: 1.2rem;
         }
 
-        /* --- BOTÓN VOLVER AL INICIO --- */
+        /* BOTÓN DE REPRODUCCIÓN INTERACTIVO */
+        .btn-play-audio {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1.5rem;
+            color: var(--accent-blue);
+            border: 1px solid var(--accent-blue);
+            border-radius: 25px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            background: transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.1);
+        }
+
+        .btn-play-audio:hover,
+        .comp-card.is-playing .btn-play-audio {
+            background-color: var(--accent-blue);
+            color: #02060c;
+            box-shadow: 0 0 18px var(--accent-glow);
+            transform: scale(1.04);
+        }
+
         .btn-back-container {
             text-align: center;
             margin: 4rem 0 2rem;
@@ -165,7 +204,6 @@
             font-size: 0.8rem;
         }
 
-        /* RESPONSIVIDAD PARA PANTALLAS PEQUEÑAS */
         @media (max-width: 850px) {
             .compilations-grid {
                 grid-template-columns: 1fr;
@@ -190,8 +228,8 @@
         
         <section class="compilations-grid">
 
-            <!-- Compilacion 1 -->
-            <article class="comp-card">
+            <!-- Compilación 1 -->
+            <article class="comp-card has-audio" data-src="musicco/third_man_records.mp3">
                 <div class="comp-cover-wrapper">
                     <img class="comp-thumb" src="imgs/re.jpg" alt="Live at Third Man Records">
                 </div>
@@ -199,11 +237,14 @@
                     <span class="comp-badge">En Vivo / Acústico</span>
                     <h2 class="comp-title">Live at Third Man Records</h2>
                     <p class="comp-desc">Álbum acústico exclusivo grabado en directo durante su sesión especial secreta de 2019.</p>
+                    <button class="btn-play-audio">
+                        <span class="play-icon">▶</span> <span class="play-text">Escuchar</span>
+                    </button>
                 </div>
             </article>
 
-            <!-- Compilacion 2 -->
-            <article class="comp-card">
+            <!-- Compilación 2 -->
+            <article class="comp-card has-audio" data-src="musicco/prime_day_show.mp3">
                 <div class="comp-cover-wrapper">
                     <img class="comp-thumb" src="imgs/prime.jpg" alt="Prime Day Show x Billie Eilish">
                 </div>
@@ -211,6 +252,9 @@
                     <span class="comp-badge">Edición Especial</span>
                     <h2 class="comp-title">Prime Day Show x Billie Eilish</h2>
                     <p class="comp-desc">Edición musical especial con arreglos cinemáticos y versiones en directo creadas exclusivamente para el Prime Day Show.</p>
+                    <button class="btn-play-audio">
+                        <span class="play-icon">▶</span> <span class="play-text">Escuchar</span>
+                    </button>
                 </div>
             </article>
 
@@ -225,6 +269,56 @@
     <footer>
         <p>Diseño Web Oficial &bull; Creado por Ángel Ismael Alvarado López</p>
     </footer>
+
+    <!-- REPRODUCTOR DE AUDIO OCULTO Y SCRIPT DE CONTROL -->
+    <audio id="hidden-audio-player"></audio>
+
+    <script>
+        const audioPlayer = document.getElementById('hidden-audio-player');
+        const compCards = document.querySelectorAll('.comp-card.has-audio');
+
+        compCards.forEach(card => {
+            const playBtn = card.querySelector('.btn-play-audio');
+            const coverWrapper = card.querySelector('.comp-cover-wrapper');
+            const audioSrc = card.getAttribute('data-src');
+
+            const togglePlay = (e) => {
+                e.preventDefault();
+
+                if (card.classList.contains('is-playing')) {
+                    audioPlayer.pause();
+                    resetCardState(card);
+                    return;
+                }
+
+                compCards.forEach(resetCardState);
+
+                audioPlayer.src = audioSrc;
+                audioPlayer.play();
+
+                card.classList.add('is-playing');
+                const icon = card.querySelector('.play-icon');
+                const text = card.querySelector('.play-text');
+                if (icon) icon.textContent = '⏸';
+                if (text) text.textContent = 'Pausar';
+            };
+
+            if (playBtn) playBtn.addEventListener('click', togglePlay);
+            if (coverWrapper) coverWrapper.addEventListener('click', togglePlay);
+        });
+
+        function resetCardState(card) {
+            card.classList.remove('is-playing');
+            const icon = card.querySelector('.play-icon');
+            const text = card.querySelector('.play-text');
+            if (icon) icon.textContent = '▶';
+            if (text) text.textContent = 'Escuchar';
+        }
+
+        audioPlayer.addEventListener('ended', () => {
+            compCards.forEach(resetCardState);
+        });
+    </script>
 
 </body>
 </html>
